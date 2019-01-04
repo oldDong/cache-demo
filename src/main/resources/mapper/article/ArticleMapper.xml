@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongzj.common.dongzj.dao.ArticleDao">
+  <resultMap id="BaseResultMap" type="com.dongzj.common.dongzj.vo.Article">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="state" jdbcType="SMALLINT" property="state" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.dongzj.common.dongzj.vo.Article">
+    <!--@mbg.generated-->
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Condition_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Condition_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, title, author, file_name, state, gmt_create, gmt_modified
+  </sql>
+  <sql id="Blob_Column_List">
+    <!--@mbg.generated-->
+    content
+  </sql>
+  <select id="selectByConditionWithBLOBs" parameterType="com.dongzj.common.dongzj.condition.ArticleCoCondition" resultMap="ResultMapWithBLOBs">
+    <!--@mbg.generated-->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article
+    <if test="_parameter != null">
+      <include refid="Condition_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByCondition" parameterType="com.dongzj.common.dongzj.condition.ArticleCoCondition" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_article
+    <if test="_parameter != null">
+      <include refid="Condition_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKeySelective" parameterType="map" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    from t_article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from t_article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByCondition" parameterType="com.dongzj.common.dongzj.condition.ArticleCoCondition">
+    <!--@mbg.generated-->
+    delete from t_article
+    <if test="_parameter != null">
+      <include refid="Condition_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.dongzj.common.dongzj.vo.Article" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_article (title, author, file_name, 
+      state, gmt_create, gmt_modified, 
+      content)
+    values (#{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
+      #{state,jdbcType=SMALLINT}, now(), now(), 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.dongzj.common.dongzj.vo.Article" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <choose>
+        <when test="_parameter.hasSelective()">
+          <if test="_parameter.hasSelective('title')">
+            title,
+          </if>
+          <if test="_parameter.hasSelective('author')">
+            author,
+          </if>
+          <if test="_parameter.hasSelective('file_name')">
+            file_name,
+          </if>
+          <if test="_parameter.hasSelective('state')">
+            state,
+          </if>
+          <if test="1 == 1">
+            gmt_create,
+          </if>
+          <if test="1 == 1">
+            gmt_modified,
+          </if>
+          <if test="_parameter.hasSelective('content')">
+            content,
+          </if>
+        </when>
+        <otherwise>
+          <if test="title != null">
+            title,
+          </if>
+          <if test="author != null">
+            author,
+          </if>
+          <if test="fileName != null">
+            file_name,
+          </if>
+          <if test="state != null">
+            state,
+          </if>
+          <if test="1 == 1">
+            gmt_create,
+          </if>
+          <if test="1 == 1">
+            gmt_modified,
+          </if>
+          <if test="content != null">
+            content,
+          </if>
+        </otherwise>
+      </choose>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <choose>
+        <when test="_parameter.hasSelective()">
+          <if test="_parameter.hasSelective('title')">
+            #{title,jdbcType=VARCHAR},
+          </if>
+          <if test="_parameter.hasSelective('author')">
+            #{author,jdbcType=VARCHAR},
+          </if>
+          <if test="_parameter.hasSelective('file_name')">
+            #{fileName,jdbcType=VARCHAR},
+          </if>
+          <if test="_parameter.hasSelective('state')">
+            #{state,jdbcType=SMALLINT},
+          </if>
+          <if test="1 == 1">
+            now(),
+          </if>
+          <if test="1 == 1">
+            now(),
+          </if>
+          <if test="_parameter.hasSelective('content')">
+            #{content,jdbcType=LONGVARCHAR},
+          </if>
+        </when>
+        <otherwise>
+          <if test="title != null">
+            #{title,jdbcType=VARCHAR},
+          </if>
+          <if test="author != null">
+            #{author,jdbcType=VARCHAR},
+          </if>
+          <if test="fileName != null">
+            #{fileName,jdbcType=VARCHAR},
+          </if>
+          <if test="state != null">
+            #{state,jdbcType=SMALLINT},
+          </if>
+          <if test="1 == 1">
+            now(),
+          </if>
+          <if test="1 == 1">
+            now(),
+          </if>
+          <if test="content != null">
+            #{content,jdbcType=LONGVARCHAR},
+          </if>
+        </otherwise>
+      </choose>
+    </trim>
+  </insert>
+  <select id="countByCondition" parameterType="com.dongzj.common.dongzj.condition.ArticleCoCondition" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select count(*) from t_article
+    <if test="_parameter != null">
+      <include refid="Condition_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByConditionSelective" parameterType="map">
+    <!--@mbg.generated-->
+    update t_article
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null">
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileName != null">
+        file_name = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=SMALLINT},
+      </if>
+      <if test="1 == 1">
+        gmt_modified = now(),
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Condition_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByConditionWithBLOBs" parameterType="map">
+    <!--@mbg.generated-->
+    update t_article
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      file_name = #{record.fileName,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=SMALLINT},
+      gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Condition_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByCondition" parameterType="map">
+    <!--@mbg.generated-->
+    update t_article
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      file_name = #{record.fileName,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=SMALLINT},
+      gmt_modified = now()
+    <if test="_parameter != null">
+      <include refid="Update_By_Condition_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dongzj.common.dongzj.vo.Article">
+    <!--@mbg.generated-->
+    update t_article
+    <set>
+      <choose>
+        <when test="_parameter.hasSelective()">
+          <if test="_parameter.hasSelective('title')">
+            title = #{title,jdbcType=VARCHAR},
+          </if>
+          <if test="_parameter.hasSelective('author')">
+            author = #{author,jdbcType=VARCHAR},
+          </if>
+          <if test="_parameter.hasSelective('file_name')">
+            file_name = #{fileName,jdbcType=VARCHAR},
+          </if>
+          <if test="_parameter.hasSelective('state')">
+            state = #{state,jdbcType=SMALLINT},
+          </if>
+          <if test="1 == 1">
+            gmt_modified = now(),
+          </if>
+          <if test="_parameter.hasSelective('content')">
+            content = #{content,jdbcType=LONGVARCHAR},
+          </if>
+        </when>
+        <otherwise>
+          <if test="title != null">
+            title = #{title,jdbcType=VARCHAR},
+          </if>
+          <if test="author != null">
+            author = #{author,jdbcType=VARCHAR},
+          </if>
+          <if test="fileName != null">
+            file_name = #{fileName,jdbcType=VARCHAR},
+          </if>
+          <if test="state != null">
+            state = #{state,jdbcType=SMALLINT},
+          </if>
+          <if test="1 == 1">
+            gmt_modified = now(),
+          </if>
+          <if test="content != null">
+            content = #{content,jdbcType=LONGVARCHAR},
+          </if>
+        </otherwise>
+      </choose>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dongzj.common.dongzj.vo.Article">
+    <!--@mbg.generated-->
+    update t_article
+    set title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      state = #{state,jdbcType=SMALLINT},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dongzj.common.dongzj.vo.Article">
+    <!--@mbg.generated-->
+    update t_article
+    set title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      state = #{state,jdbcType=SMALLINT},
+      gmt_modified = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleSelective" parameterType="map" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <if test="example.distinct">
+      distinct
+    </if>
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    from t_article
+    <if test="_parameter != null">
+      <include refid="Update_By_Condition_Where_Clause" />
+    </if>
+    <if test="example.orderByClause != null">
+      order by ${example.orderByClause}
+    </if>
+  </select>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_article
+    (title, author, file_name, state, gmt_create, gmt_modified, content)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.title,jdbcType=VARCHAR}, #{item.author,jdbcType=VARCHAR}, #{item.fileName,jdbcType=VARCHAR}, 
+        #{item.state,jdbcType=SMALLINT}, #{item.gmtCreate,jdbcType=TIMESTAMP}, #{item.gmtModified,jdbcType=TIMESTAMP}, 
+        #{item.content,jdbcType=LONGVARCHAR})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_article (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'title' == column.value">
+          #{item.title,jdbcType=VARCHAR}
+        </if>
+        <if test="'author' == column.value">
+          #{item.author,jdbcType=VARCHAR}
+        </if>
+        <if test="'file_name' == column.value">
+          #{item.fileName,jdbcType=VARCHAR}
+        </if>
+        <if test="'state' == column.value">
+          #{item.state,jdbcType=SMALLINT}
+        </if>
+        <if test="'gmt_create' == column.value">
+          #{item.gmtCreate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'gmt_modified' == column.value">
+          #{item.gmtModified,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'content' == column.value">
+          #{item.content,jdbcType=LONGVARCHAR}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+</mapper>

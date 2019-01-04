@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!--dongzjDataSource-->
+    <bean id="dongzjDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${mysql.dongzj.url}"/>
+        <property name="username" value="${mysql.dongzj.user}"/>
+        <property name="password" value="${mysql.dongzj.pwd}"/>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="initialSize" value="2"/>
+        <property name="minIdle" value="2"/>
+        <property name="maxActive" value="4"/>
+        <property name="maxWait" value="60000"/>
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <property name="validationQuery" value="select 1;"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="4"/>
+    </bean>
+    <bean id="dongzjSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dongzjDataSource"/>
+        <property name="mapperLocations">
+            <array>
+                <value>classpath*:mapper/**/*.xml</value>
+                <value>classpath*:mapper/**/*.xml</value>
+            </array>
+        </property>
+        <!--<property name="plugins">-->
+            <!--<array>-->
+                <!--<bean class="com.github.pagehelper.PageInterceptor">-->
+                    <!--<property name="properties">-->
+                        <!--&lt;!&ndash;使用下面的方式配置参数，一行配置一个 &ndash;&gt;-->
+                        <!--<value>-->
+                            <!--helperDialect=mysql-->
+                        <!--</value>-->
+                    <!--</property>-->
+                <!--</bean>-->
+            <!--</array>-->
+        <!--</property>-->
+    </bean>
+    <bean id="dongzjSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+        <constructor-arg name="sqlSessionFactory" ref="dongzjSqlSessionFactory"/>
+    </bean>
+    <bean id="dongzjMapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.dongzj.common.dongzj.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="dongzjSqlSessionFactory"></property>
+    </bean>
+
+</beans>

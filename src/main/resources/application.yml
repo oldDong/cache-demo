@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: cache-demo
+mysql:
+  dongzj:
+    pwd: ******
+    user: root
+    url: jdbc:mysql://localhost:3306/dongzj
+
